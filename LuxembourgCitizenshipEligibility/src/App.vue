@@ -2,19 +2,23 @@
   <div class="container">
     <h1>Luxembourg Citizenship Eligibility Checker</h1>
     <p>Check if you qualify for Luxembourg dual citizenship through ancestry.</p>
+    <p> Gen 0 = Luxembourg born ancestor.</p>
 
-    <AncestorForm 
-      v-for="(ancestor, index) in ancestors" 
-      :key="index" 
-      :ancestor="ancestor"
-      :generation="index"
-      :can-remove="index > 0"
-      @remove="removeGeneration(index)"
-    />
+    <div class="ancestor-container">
+      <AncestorForm 
+        v-for="(ancestor, index) in ancestors" 
+        :key="index" 
+        :ancestor="ancestor"
+        :generation="index"
+        :can-remove="index > 0"
+        @remove="removeGeneration(index)"
+      />
+    </div>
+    <div class="btn-container">
+      <AddGenerationButton @add="addGeneration" />
 
-    <AddGenerationButton @add="addGeneration" />
-
-    <EligibilityButton @check="checkEligibility" />
+      <EligibilityButton @check="checkEligibility" />
+    </div>
 
     <EligibilityResult 
       v-if="result" 
@@ -33,7 +37,7 @@ import EligibilityButton from './components/EligibilityButton.vue'
 import EligibilityResult from './components/EligibilityResult.vue'
 
 const ancestors = ref([
-  { label: 'Gen 0 - Luxembourg Ancestor', gender: '', bornAfter1969: false },
+  { label: 'Gen 0', gender: '', bornAfter1969: false, bornBetween1815And1943: false },
 ])
 
 const result = ref('')
@@ -53,10 +57,9 @@ function removeGeneration(index) {
   ancestors.value.splice(index, 1)
   // Relabel remaining generations
   ancestors.value.forEach((ancestor, i) => {
-    ancestor.label = i === 0 ? 'Gen 0 - Luxembourg Ancestor' : `Gen ${i}`
+    ancestor.label = i === 0 ? 'Gen 0' : `Gen ${i}`
   })
 }
-
 function checkEligibility() {
   if (ancestors.value.length < 2) {
     result.value = 'Please add at least one descendant generation.'
@@ -79,7 +82,7 @@ function checkEligibility() {
   }
 
   if (article7BreaksAt === -1) {
-    result.value = 'Your lineage shows an unbroken chain of citizenship eligibility!'
+    result.value = 'Your lineage shows an unbroken chain of citizenship!'
     isEligible.value = true
     article.value = 'Article 7'
     return
@@ -102,5 +105,21 @@ function checkEligibility() {
 </script>
 
 <style>
-.container { max-width: 600px; margin: 0 auto; padding: 20px; }
+.container { 
+  display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+}
+.btn-container { display: flex;
+    flex-direction: row;
+    justify-content: center;}
+.ancestor-container {
+display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly !important;
+    }
 </style>

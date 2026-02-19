@@ -6,11 +6,23 @@
     </div>
     
     <GenderSelect v-model="ancestor.gender" />
-    
-    <CheckboxInput 
-      v-model="ancestor.bornAfter1969" 
-      label="Born after January 1, 1969" 
-    />
+<div class="checkbox-group">
+  <!-- Only Gen 0 has this checkbox -->
+  <CheckboxInput 
+    v-if="generation === 0"
+    v-model="ancestor.bornBetween1815And1943" 
+    label="Born between 1815-1943" 
+  />
+
+  <!-- Placeholder for other generations -->
+  <span v-else class="checkbox-placeholder"></span>
+
+  <!-- This one stays for all generations -->
+  <CheckboxInput 
+    v-model="ancestor.bornAfter1969" 
+    label="Born after January 1, 1969" 
+  />
+</div>
   </div>
 </template>
 
@@ -28,7 +40,14 @@ defineEmits(['remove'])
 </script>
 
 <style scoped>
-.ancestor { border: 1px solid #ccc; padding: 15px; margin: 10px 0; border-radius: 8px; }
+.ancestor {
+  border: 1px solid #ccc; 
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  
+  }
+
 .header { display: flex; justify-content: space-between; align-items: center; }
 .header h3 { margin: 0; }
 .remove-btn {
@@ -41,5 +60,9 @@ defineEmits(['remove'])
   cursor: pointer;
   font-size: 14px;
   line-height: 1;
+}
+.checkbox-placeholder {
+  display: block;
+  height: 24px; /* match actual checkbox height */
 }
 </style>

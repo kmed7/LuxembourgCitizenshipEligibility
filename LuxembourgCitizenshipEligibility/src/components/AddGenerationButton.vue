@@ -8,12 +8,12 @@ defineEmits(['add'])
 
 <style scoped>
 .add-btn { 
-  background: #4caf50; 
+  background: #EA141D; 
   color: white; 
   padding: 10px 20px; 
   border: none; 
   border-radius: 4px; 
   cursor: pointer; 
-  margin-top: 10px;
+  margin-top: 15px;
 }
 </style>

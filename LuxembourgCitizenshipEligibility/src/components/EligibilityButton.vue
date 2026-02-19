@@ -8,7 +8,7 @@ defineEmits(['check'])
 
 <style scoped>
 button { 
-  background: #1e88e5; 
+  background: #51ADDA; 
   color: white; 
   padding: 10px 20px; 
   border: none; 
